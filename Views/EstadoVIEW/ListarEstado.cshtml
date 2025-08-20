@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Listar Estados";
+
+    // Dados de exemplo (o back-end vai substituir)
+    var estados = new List<dynamic> {
+        new { Nome = "São Paulo", Sigla = "SP" },
+        new { Nome = "Rio de Janeiro", Sigla = "RJ" },
+        new { Nome = "Minas Gerais", Sigla = "MG" }
+    };
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Nome do Estado</th>
+                <th>Sigla</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var estado in estados)
+            {
+                <tr>
+                    <td>@estado.Nome</td>
+                    <td>@estado.Sigla</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

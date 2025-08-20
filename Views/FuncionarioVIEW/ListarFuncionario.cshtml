@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Listar Funcionários";
+
+    // Dados de exemplo (o back-end vai substituir)
+    var funcionarios = new List<dynamic> {
+        new { Cargo = "Professor", Nome = "Gabriel", Departamento = "Matemática", Funcao = "Coordenador" },
+        new { Cargo = "Secretário", Nome = "Ana", Departamento = "Administrativo", Funcao = "Secretário" }
+    };
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Cargo</th>
+                <th>Nome</th>
+                <th>Departamento</th>
+                <th>Função</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var funcionario in funcionarios)
+            {
+                <tr>
+                    <td>@funcionario.Cargo</td>
+                    <td>@funcionario.Nome</td>
+                    <td>@funcionario.Departamento</td>
+                    <td>@funcionario.Funcao</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

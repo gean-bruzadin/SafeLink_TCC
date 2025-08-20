@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Listar Denúncias";
+
+    // Dados de exemplo (serão substituídos pelo back-end)
+    var denuncias = new List<dynamic> {
+        new { Titulo = "Vandalismo", Descricao = "Pichação no muro", DataCriacao = "2025-08-15", Data = "2025-08-16" },
+        new { Titulo = "Bullying", Descricao = "Agressão verbal", DataCriacao = "2025-08-10", Data = "2025-08-11" }
+    };
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Data de Criação</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var denuncia in denuncias)
+            {
+                <tr>
+                    <td>@denuncia.Titulo</td>
+                    <td>@denuncia.Descricao</td>
+                    <td>@denuncia.DataCriacao</td>
+                    <td>@denuncia.Data</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

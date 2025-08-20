@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Alterar Denúncia";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        <input type="text" name="Titulo" placeholder="Título da denúncia" />
+        <br />
+        <input type="text" name="Descricao" placeholder="Descrição da denúncia" />
+        <br />
+        <input type="text" name="DataCriacao" placeholder="Data de criação" />
+        <br />
+        <input type="text" name="Data" placeholder="Data" />
+        <br />
+        <input type="file" name="fotos" accept="image/*,.pdf,.doc,.docx" multiple />
+        <br />
+        <input type="submit" value="Alterar" />
+    </form>
+</body>
+</html>

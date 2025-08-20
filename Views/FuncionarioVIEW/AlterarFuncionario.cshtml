@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Alterar Funcionário";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <form action="" method="post">
+        <input type="text" name="Cargo" placeholder="Cargo do funcionário" />
+        <br />
+        <input type="text" name="Nome" placeholder="Nome do funcionário" />
+        <br />
+        <input type="text" name="Departamento" placeholder="Departamento do funcionário" />
+        <br />
+        <select name="Funcao">
+            <option value="Diretor">Diretor</option>
+            <option value="Coordenador">Coordenador</option>
+            <option value="Secretario">Secretário</option>
+        </select>
+        <br />
+        <input type="submit" value="Alterar" />
+    </form>
+</body>
+</html>
