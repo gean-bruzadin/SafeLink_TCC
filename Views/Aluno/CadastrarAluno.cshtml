@@ -1,3 +1,5 @@
+@model SafeLink_TCC.Models.AlunoMODEL
+
 @{
     ViewData["Title"] = "Cadastrar Aluno";
 }
@@ -10,14 +12,34 @@
     <title>@ViewData["Title"]</title>
 </head>
 <body>
-    <form action="" method="post">
-        <input type="text" name="Nome" placeholder="Nome do aluno" />
-        <br />
-        <input type="email" name="Email" placeholder="E-mail do aluno" />
-        <br />
-        <input type="password" name="Senha" placeholder="Senha do aluno" />
-        <br />
-        <input type="submit" value="Cadastrar" />
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-action="Cadastrar" method="post">
+        <div>
+            <label asp-for="Nome_Aluno"></label>
+            <input asp-for="Nome_Aluno" class="form-control" />
+            <span asp-validation-for="Nome_Aluno" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label asp-for="Email_Aluno"></label>
+            <input asp-for="Email_Aluno" class="form-control" />
+            <span asp-validation-for="Email_Aluno" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label asp-for="Senha_Aluno"></label>
+            <input asp-for="Senha_Aluno" type="password" class="form-control" />
+            <span asp-validation-for="Senha_Aluno" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 </body>
 </html>

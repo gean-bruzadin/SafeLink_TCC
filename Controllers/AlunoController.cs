@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using SafeLink_TCC.Config;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SafeLink_TCC.Config;
 using SafeLink_TCC.Models;
 
 namespace SafeLink_TCC.Controllers
@@ -14,66 +14,71 @@ namespace SafeLink_TCC.Controllers
             _dbconfig = dbconfig;
         }
 
-        // Lista todos os alunos
+        // Página inicial ou lista de alunos
         public async Task<IActionResult> Index()
         {
             var alunos = await _dbconfig.Alunos.ToListAsync();
-            return View(alunos); // View: Views/Aluno/Index.cshtml
+            return View(alunos);
         }
 
-        // Exibe o formulário de cadastro
-        [HttpGet]
-        public IActionResult Cadastro()
+        // Página de cadastro
+        public IActionResult Cadastrar()
         {
-            return View("CadastrarAluno"); // Especifica a view CadastrarAluno.cshtml
+            return View("CadastrarAluno");
         }
 
-        // Recebe os dados do formulário de cadastro
+        // Salvar novo aluno
         [HttpPost]
-        public async Task<IActionResult> Cadastro(AlunoMODEL aluno)
+        public async Task<IActionResult> Cadastrar(AlunoMODEL aluno)
         {
             if (!ModelState.IsValid)
-                return View("CadastrarAluno", aluno); // Reexibe a view com dados e erros
+                return View("CadastrarAluno", aluno);
 
             await _dbconfig.Alunos.AddAsync(aluno);
             await _dbconfig.SaveChangesAsync();
-
-            return RedirectToAction("Index");
+            return RedirectToAction("Cadastrar");
         }
 
-        // Exibe o formulário de edição
+        // Editar aluno
         public async Task<IActionResult> Editar(int id)
         {
             var aluno = await _dbconfig.Alunos.FindAsync(id);
-            if (aluno == null) return NotFound();
+            if (aluno == null)
+                return NotFound();
 
-            return View(aluno); // View: Views/Aluno/Editar.cshtml
+            return View("CadastrarAluno", aluno);
         }
 
-        // Recebe os dados do formulário de edição
+        // Atualizar aluno
         [HttpPost]
         public async Task<IActionResult> Atualizar(AlunoMODEL aluno)
         {
             if (!ModelState.IsValid)
-                return View("Editar", aluno); // Reexibe a view com erros
+                return View("CadastrarAluno", aluno);
 
             _dbconfig.Alunos.Update(aluno);
             await _dbconfig.SaveChangesAsync();
-
-            return RedirectToAction("Index");
+            return RedirectToAction("Cadastrar");
         }
 
-        // Deleta um aluno pelo ID
+        // Deletar aluno
         [HttpPost]
         public async Task<IActionResult> Deletar(int id)
         {
             var aluno = await _dbconfig.Alunos.FindAsync(id);
-            if (aluno == null) return NotFound();
+            if (aluno == null)
+                return NotFound();
 
             _dbconfig.Alunos.Remove(aluno);
             await _dbconfig.SaveChangesAsync();
-
             return RedirectToAction("Index");
+        }
+
+        // Lista de alunos (opcional)
+        public async Task<IActionResult> Listar()
+        {
+            var alunos = await _dbconfig.Alunos.ToListAsync();
+            return View(alunos);
         }
     }
 }
