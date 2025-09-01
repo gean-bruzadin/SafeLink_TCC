@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SafeLink_TCC.Models;
+using BCrypt.Net; // precisa do pacote BCrypt.Net-Next
 
 namespace SafeLink_TCC.Controllers
 {
@@ -27,12 +28,15 @@ namespace SafeLink_TCC.Controllers
             return View("CadastrarAluno");
         }
 
-        // Salvar novo aluno
+        // Salvar novo aluno (com senha criptografada)
         [HttpPost]
         public async Task<IActionResult> Cadastrar(AlunoMODEL aluno)
         {
             if (!ModelState.IsValid)
                 return View("CadastrarAluno", aluno);
+
+            // Criptografa a senha antes de salvar
+            aluno.Senha_Aluno = BCrypt.Net.BCrypt.HashPassword(aluno.Senha_Aluno);
 
             await _dbconfig.Alunos.AddAsync(aluno);
             await _dbconfig.SaveChangesAsync();
@@ -49,12 +53,18 @@ namespace SafeLink_TCC.Controllers
             return View("CadastrarAluno", aluno);
         }
 
-        // Atualizar aluno
+        // Atualizar aluno (criptografando caso senha tenha sido alterada)
         [HttpPost]
         public async Task<IActionResult> Atualizar(AlunoMODEL aluno)
         {
             if (!ModelState.IsValid)
                 return View("CadastrarAluno", aluno);
+
+            // Se a senha não estiver vazia, criptografa novamente
+            if (!string.IsNullOrWhiteSpace(aluno.Senha_Aluno))
+            {
+                aluno.Senha_Aluno = BCrypt.Net.BCrypt.HashPassword(aluno.Senha_Aluno);
+            }
 
             _dbconfig.Alunos.Update(aluno);
             await _dbconfig.SaveChangesAsync();
@@ -80,5 +90,7 @@ namespace SafeLink_TCC.Controllers
             var alunos = await _dbconfig.Alunos.ToListAsync();
             return View(alunos);
         }
+
+       
     }
 }

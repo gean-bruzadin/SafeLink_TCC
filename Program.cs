@@ -6,8 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuração do DbContext para PostgreSQL
 builder.Services.AddDbContext<DbConfig>(options =>
-    options.UseNpgsql(
+options.UseMySql(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    ServerVersion.AutoDetect(
         builder.Configuration.GetConnectionString("DefaultConnection")
+        )
     )
 );
 
