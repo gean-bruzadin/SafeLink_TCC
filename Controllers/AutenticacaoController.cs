@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using SafeLink_TCC.Config;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SafeLink_TCC.Controllers
 {
@@ -23,21 +23,20 @@ namespace SafeLink_TCC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string senha)
+        public async Task<IActionResult> Login(string Email_Aluno, string Senha_Aluno)
         {
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
+            if (string.IsNullOrWhiteSpace(Email_Aluno) || string.IsNullOrWhiteSpace(Senha_Aluno))
             {
                 ViewBag.Mensagem = "E-mail e/ou Senha devem ser preenchidos";
                 return View();
             }
 
-            var aluno = _dbConfig.Alunos.FirstOrDefault(
-                a => a.Email_Aluno == email
-            );
+            var aluno = await _dbConfig.Alunos
+                .FirstOrDefaultAsync(a => a.Email_Aluno == Email_Aluno);
 
-            if (aluno != null && BCrypt.Net.BCrypt.Verify(senha, aluno.Senha_Aluno))
+            if (aluno != null && BCrypt.Net.BCrypt.Verify(Senha_Aluno, aluno.Senha_Aluno))
             {
-                // Criar Claims com nome e id do usuário
+                // Criar Claims com dados do usuário
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, aluno.Id_Aluno.ToString()),
@@ -52,7 +51,7 @@ namespace SafeLink_TCC.Controllers
 
                 var authProperties = new AuthenticationProperties
                 {
-                    IsPersistent = true // mantém o login após fechar o navegador
+                    IsPersistent = true // mantém login após fechar navegador
                 };
 
                 await HttpContext.SignInAsync(
@@ -61,7 +60,7 @@ namespace SafeLink_TCC.Controllers
                     authProperties
                 );
 
-                // Redirecionar para Home/Index
+                // Redirecionar para Home/Index após login
                 return RedirectToAction("Index", "Home");
             }
 
@@ -69,7 +68,7 @@ namespace SafeLink_TCC.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

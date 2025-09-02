@@ -1,14 +1,14 @@
 ﻿﻿@{
-ViewData["Title"] = "Login - gerenciamento de produtos";
+ViewData["Title"] = "Login";
 }
 
 <h1>Login</h1>
 <form asp-action="Login" method="post">
-    <label form="Email_usuario" name="Email_usuario">E-mail:</label>
-    <input type="email" id="Email_usuario" name="Email_usuario" required />
+    <label form="Email_Aluno" name="Email_Aluno">E-mail:</label>
+    <input type="email" id="Email_Aluno" name="Email_Aluno" required />
 
-    <label for="Senha_usuario" name="Senha_usuario">Senha:</label>
-    <input type="password" id="Senha_usuario" name="Senha_usuario" required />
+    <label for="Senha_Aluno" name="Senha_Aluno">Senha:</label>
+    <input type="password" id="Senha_Aluno" name="Senha_Aluno" required />
 
     @if (ViewBag.Mensagem != null)
     {
