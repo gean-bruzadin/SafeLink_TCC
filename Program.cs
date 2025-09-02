@@ -45,6 +45,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Aluno}/{action=Cadastrar}/{id?}");
+    pattern: "{controller=Autenticacao}/{action=Login}/{id?}");
 
 app.Run();
