@@ -1,0 +1,69 @@
+﻿@model SafeLink_TCC.Models.UsuarioMODEL
+@{
+    ViewData["Title"] = "Cadastrar Usuário";
+    var niveis = ViewBag.Niveis as List<SafeLink_TCC.Models.NivelMODEL>;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="mb-4">@ViewData["Title"]</h2>
+
+            @* Mensagens de erro ou sucesso *@
+            @if (!string.IsNullOrEmpty(ViewBag.Mensagem))
+            {
+                <div class="alert alert-danger">@ViewBag.Mensagem</div>
+            }
+            @if (TempData["Sucesso"] != null)
+            {
+                <div class="alert alert-success">@TempData["Sucesso"]</div>
+            }
+
+            <form asp-controller="Usuario" asp-action="Cadastrar" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label asp-for="Nome_usuario" class="form-label"></label>
+                    <input asp-for="Nome_usuario" class="form-control" required />
+                    <span asp-validation-for="Nome_usuario" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email_usuario" class="form-label"></label>
+                    <input asp-for="Email_usuario" type="email" class="form-control" required />
+                    <span asp-validation-for="Email_usuario" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Senha_usuario" class="form-label"></label>
+                    <input asp-for="Senha_usuario" type="password" class="form-control" minlength="6" required />
+                    <small class="form-text text-muted">Mínimo 6 caracteres.</small>
+                    <span asp-validation-for="Senha_usuario" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label for="NivelId" class="form-label">Nível de Acesso</label>
+                    <select class="form-control" id="NivelId" name="NivelId" required>
+                        <option value="">-- selecione um nível --</option>
+                        @if (niveis != null)
+                        {
+                            foreach (var n in niveis)
+                            {
+                                <option value="@n.Id_Nivel">@n.Nome_Nivel</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <a asp-controller="Usuario" asp-action="Listar" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

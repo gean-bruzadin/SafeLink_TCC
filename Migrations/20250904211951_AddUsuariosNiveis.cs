@@ -6,31 +6,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SafeLink_TCC.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddUsuariosNiveis : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Alunos",
-                columns: table => new
-                {
-                    Id_Aluno = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nome_Aluno = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email_Aluno = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Senha_Aluno = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Alunos", x => x.Id_Aluno);
-                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -87,6 +68,21 @@ namespace SafeLink_TCC.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Niveis",
+                columns: table => new
+                {
+                    Id_Nivel = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nome_Nivel = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Niveis", x => x.Id_Nivel);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "TestemunhasDenuncia",
                 columns: table => new
                 {
@@ -102,6 +98,68 @@ namespace SafeLink_TCC.Migrations
                     table.PrimaryKey("PK_TestemunhasDenuncia", x => x.Id_Testemunha);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Alunos",
+                columns: table => new
+                {
+                    Id_Aluno = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nome_Aluno = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email_Aluno = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Senha_Aluno = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NivelId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alunos", x => x.Id_Aluno);
+                    table.ForeignKey(
+                        name: "FK_Alunos_Niveis_NivelId",
+                        column: x => x.NivelId,
+                        principalTable: "Niveis",
+                        principalColumn: "Id_Nivel",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    Id_usuario = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nome_usuario = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email_usuario = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Senha_usuario = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NivelId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.Id_usuario);
+                    table.ForeignKey(
+                        name: "FK_Usuarios_Niveis_NivelId",
+                        column: x => x.NivelId,
+                        principalTable: "Niveis",
+                        principalColumn: "Id_Nivel",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Alunos_NivelId",
+                table: "Alunos",
+                column: "NivelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_NivelId",
+                table: "Usuarios",
+                column: "NivelId");
         }
 
         /// <inheritdoc />
@@ -121,6 +179,12 @@ namespace SafeLink_TCC.Migrations
 
             migrationBuilder.DropTable(
                 name: "TestemunhasDenuncia");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Niveis");
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using SafeLink_TCC.Config;
-using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using SafeLink_TCC.Config;
+using SafeLink_TCC.Models;
+using System.Security.Claims;
 
 namespace SafeLink_TCC.Controllers
 {
@@ -11,60 +12,50 @@ namespace SafeLink_TCC.Controllers
     {
         private readonly DbConfig _dbConfig;
 
-        public AutenticacaoController(DbConfig dbConfig)
+        public AutenticacaoController(DbConfig dbconfig)
         {
-            _dbConfig = dbConfig;
+            _dbConfig = dbconfig;
         }
 
         [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Login(string Email_Aluno, string Senha_Aluno)
+        public async Task<IActionResult> Login(string email, string senha)
         {
-            if (string.IsNullOrWhiteSpace(Email_Aluno) || string.IsNullOrWhiteSpace(Senha_Aluno))
-            {
-                ViewBag.Mensagem = "E-mail e/ou Senha devem ser preenchidos";
-                return View();
-            }
+            var usuario = await _dbConfig.Usuarios
+                .Include(u => u.Nivel)
+                .FirstOrDefaultAsync(u => u.Email_usuario == email);
 
-            var aluno = await _dbConfig.Alunos
-                .FirstOrDefaultAsync(a => a.Email_Aluno == Email_Aluno);
-
-            if (aluno != null && BCrypt.Net.BCrypt.Verify(Senha_Aluno, aluno.Senha_Aluno))
+            if (usuario != null && BCrypt.Net.BCrypt.Verify(senha, usuario.Senha_usuario))
             {
-                // Criar Claims com dados do usuário
+                // Cria claims com nível de acesso
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.NameIdentifier, aluno.Id_Aluno.ToString()),
-                    new Claim(ClaimTypes.Name, aluno.Nome_Aluno),
-                    new Claim(ClaimTypes.Email, aluno.Email_Aluno)
+                    new Claim(ClaimTypes.NameIdentifier, usuario.Id_usuario.ToString()),
+                    new Claim(ClaimTypes.Name, usuario.Nome_usuario),
+                    new Claim(ClaimTypes.Email, usuario.Email_usuario),
+                    new Claim(ClaimTypes.Role, usuario.Nivel.Nome_Nivel) // role: Aluno, Funcionario, Admin
                 };
 
-                var claimsIdentity = new ClaimsIdentity(
-                    claims,
-                    CookieAuthenticationDefaults.AuthenticationScheme
-                );
-
-                var authProperties = new AuthenticationProperties
-                {
-                    IsPersistent = true // mantém login após fechar navegador
-                };
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity),
-                    authProperties
+                    new AuthenticationProperties { IsPersistent = true }
                 );
 
-                // Redirecionar para Home/Index após login
-                return RedirectToAction("Index", "Home");
+                // Redireciona conforme nível
+                if (usuario.Nivel.Nome_Nivel == "Admin")
+                    return RedirectToAction("Listar", "Usuario"); // painel admin
+                else if (usuario.Nivel.Nome_Nivel == "Funcionario")
+                    return RedirectToAction("Index", "Home"); // painel funcionário
+                else
+                    return RedirectToAction("Index", "Aluno"); // painel aluno
             }
 
-            ViewBag.Mensagem = "E-mail e/ou Senha Inválidos";
+            ViewBag.Mensagem = "E-mail ou senha inválidos.";
             return View();
         }
 

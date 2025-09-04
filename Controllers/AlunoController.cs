@@ -35,24 +35,22 @@ namespace SafeLink_TCC.Controllers
             if (!ModelState.IsValid)
                 return View("CadastrarAluno", aluno);
 
-            // Criptografa a senha antes de salvar
+            // Criptografa senha
             aluno.Senha_Aluno = BCrypt.Net.BCrypt.HashPassword(aluno.Senha_Aluno);
+
+            // Atribui automaticamente o nível "Aluno"
+            var nivelAluno = await _dbconfig.Niveis.FirstOrDefaultAsync(n => n.Nome_Nivel == "Aluno");
+            if (nivelAluno != null)
+            {
+                aluno.NivelId = nivelAluno.Id_Nivel;
+            }
 
             await _dbconfig.Alunos.AddAsync(aluno);
             await _dbconfig.SaveChangesAsync();
+
+            TempData["Sucesso"] = "Cadastro realizado com sucesso!";
             return RedirectToAction("Cadastrar");
         }
-
-        // Editar aluno
-        public async Task<IActionResult> Editar(int id)
-        {
-            var aluno = await _dbconfig.Alunos.FindAsync(id);
-            if (aluno == null)
-                return NotFound();
-
-            return View("CadastrarAluno", aluno);
-        }
-
         // Atualizar aluno (criptografando caso senha tenha sido alterada)
         [HttpPost]
         public async Task<IActionResult> Atualizar(AlunoMODEL aluno)

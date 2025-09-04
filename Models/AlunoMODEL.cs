@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SafeLink_TCC.Models
 {
@@ -10,5 +11,10 @@ namespace SafeLink_TCC.Models
         public string Email_Aluno { get; set; }
         public string Senha_Aluno { get; set; }
 
+
+        public int NivelId { get; set; }
+
+        [ForeignKey("NivelId")]
+        public NivelMODEL Nivel { get; set; }
     }
 }

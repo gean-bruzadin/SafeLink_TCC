@@ -46,6 +46,6 @@ app.UseAuthorization();
 // Rota padrão deve ser a Home, não o Login
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Autenticacao}/{action=Login}/{id?}");
+    pattern: "{controller=Aluno}/{action=Cadastrar}/{id?}");
 
 app.Run();

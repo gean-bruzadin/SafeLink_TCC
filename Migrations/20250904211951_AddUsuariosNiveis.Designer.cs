@@ -11,8 +11,8 @@ using SafeLink_TCC.Config;
 namespace SafeLink_TCC.Migrations
 {
     [DbContext(typeof(DbConfig))]
-    [Migration("20250902002147_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250904211951_AddUsuariosNiveis")]
+    partial class AddUsuariosNiveis
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace SafeLink_TCC.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("NivelId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome_Aluno")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -45,6 +48,8 @@ namespace SafeLink_TCC.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id_Aluno");
+
+                    b.HasIndex("NivelId");
 
                     b.ToTable("Alunos");
                 });
@@ -116,6 +121,23 @@ namespace SafeLink_TCC.Migrations
                     b.ToTable("Funcionarios");
                 });
 
+            modelBuilder.Entity("SafeLink_TCC.Models.NivelMODEL", b =>
+                {
+                    b.Property<int>("Id_Nivel")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id_Nivel"));
+
+                    b.Property<string>("Nome_Nivel")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id_Nivel");
+
+                    b.ToTable("Niveis");
+                });
+
             modelBuilder.Entity("SafeLink_TCC.Models.Testemunha_DenunciaMODEL", b =>
                 {
                     b.Property<int>("Id_Testemunha")
@@ -135,6 +157,58 @@ namespace SafeLink_TCC.Migrations
                     b.HasKey("Id_Testemunha");
 
                     b.ToTable("TestemunhasDenuncia");
+                });
+
+            modelBuilder.Entity("SafeLink_TCC.Models.UsuarioMODEL", b =>
+                {
+                    b.Property<int>("Id_usuario")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id_usuario"));
+
+                    b.Property<string>("Email_usuario")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("NivelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome_usuario")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Senha_usuario")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id_usuario");
+
+                    b.HasIndex("NivelId");
+
+                    b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("SafeLink_TCC.Models.AlunoMODEL", b =>
+                {
+                    b.HasOne("SafeLink_TCC.Models.NivelMODEL", "Nivel")
+                        .WithMany()
+                        .HasForeignKey("NivelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Nivel");
+                });
+
+            modelBuilder.Entity("SafeLink_TCC.Models.UsuarioMODEL", b =>
+                {
+                    b.HasOne("SafeLink_TCC.Models.NivelMODEL", "Nivel")
+                        .WithMany()
+                        .HasForeignKey("NivelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Nivel");
                 });
 #pragma warning restore 612, 618
         }
