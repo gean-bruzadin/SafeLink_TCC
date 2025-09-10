@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SafeLink_TCC.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUsuariosNiveis : Migration
+    public partial class tcc : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -111,14 +111,14 @@ namespace SafeLink_TCC.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Senha_Aluno = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NivelId = table.Column<int>(type: "int", nullable: false)
+                    Id_Nivel = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Alunos", x => x.Id_Aluno);
                     table.ForeignKey(
-                        name: "FK_Alunos_Niveis_NivelId",
-                        column: x => x.NivelId,
+                        name: "FK_Alunos_Niveis_Id_Nivel",
+                        column: x => x.Id_Nivel,
                         principalTable: "Niveis",
                         principalColumn: "Id_Nivel",
                         onDelete: ReferentialAction.Cascade);
@@ -152,9 +152,9 @@ namespace SafeLink_TCC.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Alunos_NivelId",
+                name: "IX_Alunos_Id_Nivel",
                 table: "Alunos",
-                column: "NivelId");
+                column: "Id_Nivel");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_NivelId",

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SafeLink_TCC.Models;
-using BCrypt.Net; // precisa do pacote BCrypt.Net-Next
 
 namespace SafeLink_TCC.Controllers
 {
@@ -30,27 +29,52 @@ namespace SafeLink_TCC.Controllers
 
         // Salvar novo aluno (com senha criptografada)
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cadastrar(AlunoMODEL aluno)
         {
-            if (!ModelState.IsValid)
-                return View("CadastrarAluno", aluno);
+          
+            
 
-            // Criptografa senha
-            aluno.Senha_Aluno = BCrypt.Net.BCrypt.HashPassword(aluno.Senha_Aluno);
-
-            // Atribui automaticamente o nível "Aluno"
-            var nivelAluno = await _dbconfig.Niveis.FirstOrDefaultAsync(n => n.Nome_Nivel == "Aluno");
-            if (nivelAluno != null)
+            // Testa conexão com o DB (opcional, ajuda a diagnosticar)
+            if (!await _dbconfig.Database.CanConnectAsync())
             {
-                aluno.NivelId = nivelAluno.Id_Nivel;
+                ModelState.AddModelError("", "Não foi possível conectar ao banco de dados. Verifique a conexão.");
+                return View("CadastrarAluno", aluno);
             }
 
-            await _dbconfig.Alunos.AddAsync(aluno);
-            await _dbconfig.SaveChangesAsync();
+            try
+            {
+                // Criptografa a senha antes de salvar
+                aluno.Senha_Aluno = BCrypt.Net.BCrypt.HashPassword(aluno.Senha_Aluno);
 
-            TempData["Sucesso"] = "Cadastro realizado com sucesso!";
-            return RedirectToAction("Cadastrar");
+                // Define o nível automaticamente como Aluno (ID = 1)
+                aluno.Id_Nivel = 1; // LINHA ALTERADA
+
+                await _dbconfig.Alunos.AddAsync(aluno);
+                await _dbconfig.SaveChangesAsync();
+
+                TempData["Sucesso"] = "Cadastro realizado com sucesso!";
+                return RedirectToAction("Login", "Autenticacao");
+            }
+            catch (Exception ex)
+            {
+                // Log: você pode injetar ILogger<AlunoController> para registrar melhor
+                TempData["Erro"] = "Ocorreu um erro ao salvar o cadastro: " + ex.Message;
+                ModelState.AddModelError("", "Erro ao cadastrar: " + ex.Message);
+                return View("CadastrarAluno", aluno);
+            }
         }
+
+        // Editar aluno
+        public async Task<IActionResult> Editar(int id)
+        {
+            var aluno = await _dbconfig.Alunos.FindAsync(id);
+            if (aluno == null)
+                return NotFound();
+
+            return View("CadastrarAluno", aluno);
+        }
+
         // Atualizar aluno (criptografando caso senha tenha sido alterada)
         [HttpPost]
         public async Task<IActionResult> Atualizar(AlunoMODEL aluno)
@@ -58,28 +82,48 @@ namespace SafeLink_TCC.Controllers
             if (!ModelState.IsValid)
                 return View("CadastrarAluno", aluno);
 
-            // Se a senha não estiver vazia, criptografa novamente
-            if (!string.IsNullOrWhiteSpace(aluno.Senha_Aluno))
+            try
             {
-                aluno.Senha_Aluno = BCrypt.Net.BCrypt.HashPassword(aluno.Senha_Aluno);
-            }
+                // Se a senha não estiver vazia, criptografa novamente
+                if (!string.IsNullOrWhiteSpace(aluno.Senha_Aluno))
+                {
+                    aluno.Senha_Aluno = BCrypt.Net.BCrypt.HashPassword(aluno.Senha_Aluno);
+                }
 
-            _dbconfig.Alunos.Update(aluno);
-            await _dbconfig.SaveChangesAsync();
-            return RedirectToAction("Cadastrar");
+                _dbconfig.Alunos.Update(aluno);
+                await _dbconfig.SaveChangesAsync();
+
+                TempData["Sucesso"] = "Aluno atualizado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["Erro"] = "Erro ao atualizar aluno: " + ex.Message;
+                return View("CadastrarAluno", aluno);
+            }
         }
 
         // Deletar aluno
         [HttpPost]
         public async Task<IActionResult> Deletar(int id)
         {
-            var aluno = await _dbconfig.Alunos.FindAsync(id);
-            if (aluno == null)
-                return NotFound();
+            try
+            {
+                var aluno = await _dbconfig.Alunos.FindAsync(id);
+                if (aluno == null)
+                    return NotFound();
 
-            _dbconfig.Alunos.Remove(aluno);
-            await _dbconfig.SaveChangesAsync();
-            return RedirectToAction("Index");
+                _dbconfig.Alunos.Remove(aluno);
+                await _dbconfig.SaveChangesAsync();
+
+                TempData["Sucesso"] = "Aluno deletado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["Erro"] = "Erro ao deletar aluno: " + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         // Lista de alunos (opcional)
@@ -88,7 +132,5 @@ namespace SafeLink_TCC.Controllers
             var alunos = await _dbconfig.Alunos.ToListAsync();
             return View(alunos);
         }
-
-       
     }
 }

@@ -11,8 +11,8 @@ using SafeLink_TCC.Config;
 namespace SafeLink_TCC.Migrations
 {
     [DbContext(typeof(DbConfig))]
-    [Migration("20250904211951_AddUsuariosNiveis")]
-    partial class AddUsuariosNiveis
+    [Migration("20250905195916_tcc")]
+    partial class tcc
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace SafeLink_TCC.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("NivelId")
+                    b.Property<int>("Id_Nivel")
                         .HasColumnType("int");
 
                     b.Property<string>("Nome_Aluno")
@@ -49,7 +49,7 @@ namespace SafeLink_TCC.Migrations
 
                     b.HasKey("Id_Aluno");
 
-                    b.HasIndex("NivelId");
+                    b.HasIndex("Id_Nivel");
 
                     b.ToTable("Alunos");
                 });
@@ -193,7 +193,7 @@ namespace SafeLink_TCC.Migrations
                 {
                     b.HasOne("SafeLink_TCC.Models.NivelMODEL", "Nivel")
                         .WithMany()
-                        .HasForeignKey("NivelId")
+                        .HasForeignKey("Id_Nivel")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

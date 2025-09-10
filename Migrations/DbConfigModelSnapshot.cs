@@ -33,7 +33,7 @@ namespace SafeLink_TCC.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("NivelId")
+                    b.Property<int>("Id_Nivel")
                         .HasColumnType("int");
 
                     b.Property<string>("Nome_Aluno")
@@ -46,7 +46,7 @@ namespace SafeLink_TCC.Migrations
 
                     b.HasKey("Id_Aluno");
 
-                    b.HasIndex("NivelId");
+                    b.HasIndex("Id_Nivel");
 
                     b.ToTable("Alunos");
                 });
@@ -190,7 +190,7 @@ namespace SafeLink_TCC.Migrations
                 {
                     b.HasOne("SafeLink_TCC.Models.NivelMODEL", "Nivel")
                         .WithMany()
-                        .HasForeignKey("NivelId")
+                        .HasForeignKey("Id_Nivel")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
