@@ -55,6 +55,7 @@ namespace SafeLink_TCC.Controllers
             {
                 Nome_usuario = Nome_usuario,
                 Email_usuario = Email_usuario,
+                // AQUI ESTÁ O PONTO CORRETO: Aplicando o Hash antes de salvar
                 Senha_usuario = BCrypt.Net.BCrypt.HashPassword(Senha_usuario),
                 NivelId = nivel.Id_Nivel
             };

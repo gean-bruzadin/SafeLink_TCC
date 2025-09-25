@@ -14,11 +14,15 @@ builder.Services.AddDbContext<DbConfig>(options =>
 
 // Configuração de autenticação com Cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
+    .AddCookie(config =>
     {
-        config.Cookie.Name = "AlunoLoginCookie";
+        config.Cookie.Name = "SafeLinkAuthCookie"; // Nome mais genérico
         config.LoginPath = "/Autenticacao/Login";
-        config.AccessDeniedPath = "/Autenticacao/Login";
+
+        // CORREÇÃO: Defina uma página diferente, ou comente/remova se não tiver uma.
+        // Se você não definir uma, o ASP.NET Core apenas retornará um status 403 (Forbidden).
+        config.AccessDeniedPath = "/Home/AcessoNegado"; // Crie uma view em Views/Home/AcessoNegado
+
         config.ExpireTimeSpan = TimeSpan.FromHours(1);
         config.SlidingExpiration = true;
     });
