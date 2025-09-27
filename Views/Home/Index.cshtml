@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home - SafeLink</title>
 
     <!-- ICONES -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
@@ -22,21 +22,22 @@
 
 
     <link rel="stylesheet" href="~/css/home.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../assets/css/sidebar-css/sidebar-slides.css">
 </head>
 <body>
     <header>
 
         <div class="logo">
-            <span>SafeLink</span>
-            <i class="fas fa-shield-alt fa-2x"></i>
+            <a href="../../home.html" style="color: white; text-decoration: none; display: flex; align-items: center;">
+                <span>SafeLink</span>
+                <i class="fas fa-shield-alt fa-2x"></i>
+            </a>
         </div>
 
         <div class="nav-container">
             <nav class="nav-links">
-                <a href="#"><i class="fas fa-exclamation-circle"></i> Denúncia</a>
-                <a href="#"><i class="fas fa-list"></i> Minhas denúncias</a>
-                <a href="#"><i class="fas fa-search"></i> Acompanhamento</a>
+                <a href="forms/denuncia/denuncia.html"><i class="fas fa-exclamation-circle"></i> Denúncia</a>
+                <a href="lista_denuncia.html"><i class="fas fa-list"></i> Minhas denúncias</a>
+                <a href="acompanhamento.html"><i class="fas fa-search"></i> Acompanhamento</a>
             </nav>
 
 
@@ -72,7 +73,7 @@
                                 <h2 id="modal_title">Perfil</h2>
 
                                 <div class="profile-content">
-                                    <img id="profile-preview" src="~/img/profile.png" alt="Foto de perfil">
+                                    <img id="profile-preview" src="img/profile.png" alt="Foto de perfil">
                                     <h3 id="user-name">Gabriel Silva</h3>
                                     <p id="user-email">gabriel.silva@exemplo.com</p>
                                 </div>
@@ -116,9 +117,9 @@
 
     <section class="conteudo-home">
 
-        <p id="bem-vindo">Bem-Vindo <br> ao <span style="margin-top: 20vh; margin-left: -40vh; color: #6C63FF;">SafeLink</span></p>
+        <p id="bem-vindo">Bem-Vindo <br> ao <span style="margin-top: 15vh; margin-left: -40vh; color: #a02d33;">SafeLink</span></p>
 
-        <img id="img-conteudo" src="~/img/undraw_post_eok2.svg" alt="" width="500px" height="500px">
+        <img id="img-conteudo" src="~/img/undraw_blogging_38kl.svg" alt="" width="500px" height="500px">
     </section>
 
     <!-- BTN ACESSBILIDADE -->
@@ -138,7 +139,7 @@
     </div>
 
     <script src="script/menu_dropdown.js"></script>
-    <script src="../assets/js/tema.js"></script>
+    <script src="script/home.js"></script>
     <script src="script/open-modal.js"></script>
 </body>
 </html>

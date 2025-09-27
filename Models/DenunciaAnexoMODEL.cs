@@ -6,16 +6,16 @@ namespace SafeLink_TCC.Models
     public class DenunciaAnexoMODEL
     {
         [Key]
-        public int Id_anexo { get; set; }
+        public int Id_DenunciaAnexo { get; set; }
 
         // Chave Estrangeira para Anexo
         [ForeignKey("Anexo")]
-        public int AnexoId { get; set; }
+        public int Id_Anexo  { get; set; }
         public AnexoDenunciaMODEL Anexo { get; set; } // <--- CORRIGIDO AQUI!
 
         // Chave Estrangeira para Denuncia
         [ForeignKey("Denuncia")]
-        public int DenunciaId { get; set; }
+        public int Id_Denuncia { get; set; }
         public DenunciaMODEL Denuncia { get; set; }
     }
 }

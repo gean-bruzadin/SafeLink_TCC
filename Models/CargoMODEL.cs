@@ -6,13 +6,13 @@ namespace SafeLink_TCC.Models
     public class CargoMODEL
     {
         [Key]
-        public int Id_cargo { get; set; }
+        public int Id_Cargo { get; set; }
         [Required]
         public string nome_cargo { get; set; }
         [Required]
 
         [ForeignKey("Funcionario")]
-        public int FuncionarioId { get; set; }
+        public int Id_funcionario { get; set; }
         public FuncionarioMODEL Funcionario { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace SafeLink_TCC.Models
     public class EscolaMODEL
     {
         [Key]
-        public int Id_escola { get; set; }
+        public int Id_Escola { get; set; }
         [Required]
         public string nome_escola { get; set; }
         [Required]
@@ -17,7 +17,7 @@ namespace SafeLink_TCC.Models
         public string telefone_escola { get; set; }
 
         [ForeignKey("Cidade")]
-        public int CidadeId { get; set; }
+        public int Id_Cidade { get; set; }
         public CidadeMODEL Cidade { get; set; }
     }
 }
