@@ -130,7 +130,7 @@ namespace SafeLink_TCC.Controllers
         public async Task<IActionResult> Listar()
         {
             var alunos = await _dbconfig.Alunos.ToListAsync();
-            return View(alunos);
+            return View("ListarAluno",alunos);
         }
     }
 }

@@ -75,7 +75,7 @@ namespace SafeLink_TCC.Controllers
                     new AuthenticationProperties { IsPersistent = true }
                 );
 
-                return RedirectToAction("Index", "Aluno");
+                return RedirectToAction("Listar", "Aluno");
             }
 
             ViewBag.Mensagem = "E-mail ou senha inválidos.";
