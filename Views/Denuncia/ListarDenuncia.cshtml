@@ -103,9 +103,9 @@
         {
             foreach (var denuncia in Model)
             {
-                <div class="complaint-item" data-id="@denuncia.Id_denuncia">
+                <div class="complaint-item" data-id="@denuncia.Id_Denuncia">
                     <div class="complaint-info">
-                        <div class="complaint-id">Denúncia #@denuncia.Id_denuncia</div>
+                        <div class="complaint-id">Denúncia #@denuncia.Id_Denuncia</div>
                         <div class="complaint-date">Data: @denuncia.dataCriacao_denuncia.ToString("dd/MM/yyyy")</div>
                         <div class="complaint-summary">@denuncia.titulo_denuncia</div>
                         <div class="complaint-category">@denuncia.descricao_denuncia</div>

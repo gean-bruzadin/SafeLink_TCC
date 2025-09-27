@@ -1,46 +1,63 @@
-﻿﻿@{
-ViewData["Title"] = "Login";
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = null; // Layout nulo, como solicitado
 }
 
-<h1>Login</h1>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg">
-                <div class="card-header text-center bg-primary text-white">
-                    <h2 class="mb-0">Acesso ao Sistema</h2>
-                </div>
-                <div class="card-body p-4">
-
-                    @if (ViewBag.Mensagem != null)
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @ViewBag.Mensagem
-                        </div>
-                    }
-
-                    <form asp-controller="Autenticacao" asp-action="Login" method="post">
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">E-mail:</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="senha" class="form-label">Senha:</label>
-                            <input type="password" class="form-control" id="senha" name="senha" required>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
-                        </div>
-                    </form>
-
-                </div>
-                <div class="card-footer text-center text-muted">
-                    Esqueceu a senha? <a href="#">Recuperar</a>
-                </div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SafeLink</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/Cadastro_Login.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="image-side">
+            <div class="image-content">
+                <h1 class="safelink-title">Safelink</h1>
+                <img src="~/img/undraw_team-chat_kjj8.svg" alt="Imagem de Acesso" class="decorative-image" />
             </div>
         </div>
+
+        <div class="form-side">
+            <h2 class="title">Acesso ao Sistema</h2>
+
+            @if (ViewBag.Mensagem != null)
+            {
+                <div class="alert alert-danger" role="alert" style="color: #8B0000; background-color: #fdd; border: 1px solid #8B0000; padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+                    @ViewBag.Mensagem
+                </div>
+            }
+
+            <form asp-controller="Autenticacao" asp-action="Login" method="post" class="login-form">
+
+                <div class="input-field">
+                    <i class="bx bxs-envelope icon"></i>
+                    <input type="email" placeholder="E-mail" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="input-field">
+                    <i class="bx bxs-lock-alt icon"></i>
+                    <input type="password" placeholder="Senha" class="form-control" id="senha" name="senha" required>
+                </div>
+
+                <button type="submit" class="btn btn-register">Entrar</button>
+            </form>
+
+            <p class="login-link">
+                Esqueceu a senha? <a asp-controller="Autenticacao" asp-action="Recuperar">Recuperar</a>
+            </p>
+
+            <p class="login-link" style="margin-top: 5px;">
+                Não tem conta? <a asp-controller="Autenticacao" asp-action="Cadastrar">Cadastre-se</a>
+            </p>
+        </div>
     </div>
-</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
