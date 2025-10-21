@@ -11,8 +11,6 @@ namespace SafeLink_TCC.Models
         public string nome_cargo { get; set; }
         [Required]
 
-        [ForeignKey("Funcionario")]
-        public int Id_funcionario { get; set; }
-        public FuncionarioMODEL Funcionario { get; set; }
+        public ICollection<FuncionarioMODEL> Funcionarios { get; set; }
     }
 }

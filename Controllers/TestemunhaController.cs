@@ -5,29 +5,29 @@ using SafeLink_TCC.Models;
 
 namespace SafeLink_TCC.Controllers
 {
-    public class AnexoDenunciaController : Controller
+    public class TestemunhaController : Controller
     {
         private readonly DbConfig _dbconfig;
 
-        public AnexoDenunciaController(DbConfig dbconfig)
+        public TestemunhaController(DbConfig dbconfig)
         {
             _dbconfig = dbconfig;
         }
 
-        // Listar todos os anexos
+        // Listar todas as testemunhas
         public async Task<IActionResult> Index()
         {
-            var anexos = await _dbconfig.AnexosDenuncia.ToListAsync();
-            return View(anexos);
+            var testemunhas = await _dbconfig.TestemunhasDenuncia.ToListAsync();
+            return View(testemunhas);
         }
 
-        // Detalhes de um anexo específico
+        // Detalhes de uma testemunha específica
         public async Task<IActionResult> Detalhes(int id)
         {
-            var anexo = await _dbconfig.AnexosDenuncia.FindAsync(id);
-            if (anexo == null) return NotFound();
+            var testemunha = await _dbconfig.TestemunhasDenuncia.FindAsync(id);
+            if (testemunha == null) return NotFound();
 
-            return View(anexo);
+            return View(testemunha);
         }
 
         // Formulário de cadastro
@@ -39,12 +39,12 @@ namespace SafeLink_TCC.Controllers
 
         // Cadastro (POST)
         [HttpPost]
-        public async Task<IActionResult> Cadastro(AnexoDenunciaMODEL anexo)
+        public async Task<IActionResult> Cadastro(TestemunhaMODEL testemunha)
         {
             if (!ModelState.IsValid)
-                return View(anexo);
+                return View(testemunha);
 
-            await _dbconfig.AnexosDenuncia.AddAsync(anexo);
+            await _dbconfig.TestemunhasDenuncia.AddAsync(testemunha);
             await _dbconfig.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -53,20 +53,20 @@ namespace SafeLink_TCC.Controllers
         [HttpGet]
         public async Task<IActionResult> Editar(int id)
         {
-            var anexo = await _dbconfig.AnexosDenuncia.FindAsync(id);
-            if (anexo == null) return NotFound();
+            var testemunha = await _dbconfig.TestemunhasDenuncia.FindAsync(id);
+            if (testemunha == null) return NotFound();
 
-            return View(anexo);
+            return View(testemunha);
         }
 
         // Editar (POST)
         [HttpPost]
-        public async Task<IActionResult> Editar(AnexoDenunciaMODEL anexo)
+        public async Task<IActionResult> Editar(TestemunhaMODEL testemunha)
         {
             if (!ModelState.IsValid)
-                return View(anexo);
+                return View(testemunha);
 
-            _dbconfig.AnexosDenuncia.Update(anexo);
+            _dbconfig.TestemunhasDenuncia.Update(testemunha);
             await _dbconfig.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -75,12 +75,13 @@ namespace SafeLink_TCC.Controllers
         [HttpPost]
         public async Task<IActionResult> Deletar(int id)
         {
-            var anexo = await _dbconfig.AnexosDenuncia.FindAsync(id);
-            if (anexo == null) return NotFound();
+            var testemunha = await _dbconfig.TestemunhasDenuncia.FindAsync(id);
+            if (testemunha == null) return NotFound();
 
-            _dbconfig.AnexosDenuncia.Remove(anexo);
+            _dbconfig.TestemunhasDenuncia.Remove(testemunha);
             await _dbconfig.SaveChangesAsync();
             return RedirectToAction("Index");
         }
     }
 }
+

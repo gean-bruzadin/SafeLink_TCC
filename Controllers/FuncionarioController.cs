@@ -41,8 +41,7 @@ namespace SafeLink_TCC.Controllers
         [HttpPost]
         public async Task<IActionResult> Cadastro(FuncionarioMODEL funcionario)
         {
-            if (!ModelState.IsValid)
-                return View(funcionario);
+            
 
             await _dbconfig.Funcionarios.AddAsync(funcionario);
             await _dbconfig.SaveChangesAsync();
@@ -63,8 +62,7 @@ namespace SafeLink_TCC.Controllers
         [HttpPost]
         public async Task<IActionResult> Editar(FuncionarioMODEL funcionario)
         {
-            if (!ModelState.IsValid)
-                return View(funcionario);
+            
 
             _dbconfig.Funcionarios.Update(funcionario);
             await _dbconfig.SaveChangesAsync();

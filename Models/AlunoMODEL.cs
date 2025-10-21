@@ -13,11 +13,16 @@ namespace SafeLink_TCC.Models
         public string Email_Aluno { get; set; } 
         [Required]
         public string Senha_Aluno { get; set; }
+        public string Genero_Aluno { get; set; }
+        public DateTime DataNascimento_Aluno { get; set; }
 
         // Alterado para corresponder ao nome da coluna no banco de dados
         public int Id_Nivel { get; set; }
 
         [ForeignKey("Id_Nivel")] // A anotação agora usa o nome correto da coluna
         public NivelMODEL Nivel { get; set; }
+
+        public ICollection<DenunciaMODEL> Denuncias { get; set; }
+
     }
 }

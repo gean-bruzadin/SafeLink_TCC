@@ -5,16 +5,12 @@ namespace SafeLink_TCC.Models
 {
     public class Denuncia_TestemunhaMODEL
     {
-        [Key]
-        public int Id_Denuncia_testemunha { get; set; }
-
-        [ForeignKey("Testemunha_Denuncia")]
+        [ForeignKey("Testemunha")]
         public int Id_Testemunha { get; set; }
-        public Testemunha_DenunciaMODEL Testemunha { get; set; }
+        public TestemunhaMODEL Testemunha { get; set; }
 
         [ForeignKey("Denuncia")]
         public int Id_Denuncia { get; set; }
-
-        public DenunciaMODEL Denuncia { get; set; }
+        public DenunciaMODEL Denuncias { get; set; }
     }
 }

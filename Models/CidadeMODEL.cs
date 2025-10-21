@@ -14,5 +14,7 @@ namespace SafeLink_TCC.Models
         public int Id_Estado { get; set; }
         public EstadoMODEL Estado { get; set; }
 
+        public ICollection<EscolaMODEL> Escolas { get; set; }
+
     }
 }

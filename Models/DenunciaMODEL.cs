@@ -15,18 +15,20 @@ namespace SafeLink_TCC.Models
     {
         [Key]
         public int Id_Denuncia { get; set; }
-        [Required]
+      
         public string titulo_denuncia { get; set; }
-        [Required]
+        
         public string descricao_denuncia { get; set; }
-        [Required]
+       
         public DateTime dataCriacao_denuncia { get; set; }
-
+        public object DataCriacao_Denuncia { get; set; }
         public string categoria_denuncia { get; set; }
 
         // Use o enum para o status da denúncia.
-        [Required]
-        public DenunciaStatus status_denuncia { get; set; }
+        
+        public string Status_Denuncia { get; set; }
+
+
         [ForeignKey("Aluno")]
         public int Id_Aluno { get; set; }
         public AlunoMODEL Aluno { get; set; }
@@ -34,5 +36,12 @@ namespace SafeLink_TCC.Models
         [ForeignKey("Escola")]
         public int Id_Escola { get; set; }
         public EscolaMODEL Escola { get; set; }
+
+
+        public ICollection<AnexoMODEL> Anexos { get; set; }
+
+
+        public ICollection<RespostaMODEL> Respostas { get; set; }
+        public ICollection<Denuncia_TestemunhaMODEL> DenunciaTestemunhas { get; set; }
     }
 }

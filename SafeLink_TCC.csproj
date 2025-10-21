@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Acompanhamento\**" />
+    <Content Remove="Views\Acompanhamento\**" />
+    <EmbeddedResource Remove="Views\Acompanhamento\**" />
+    <None Remove="Views\Acompanhamento\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.8" />
@@ -23,8 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Acompanhamento\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
 </Project>
