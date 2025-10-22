@@ -1,0 +1,21 @@
+@model SafeLink_TCC.Models.CargoMODEL
+
+@{
+    ViewData["Title"] = "Detalhes do Cargo";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Detalhes do Cargo</h2>
+
+    <div class="card w-50 mx-auto shadow-sm">
+        <div class="card-body">
+            <p><strong>ID:</strong> @Model.Id_Cargo</p>
+            <p><strong>Nome do Cargo:</strong> @Model.nome_cargo</p>
+
+            <div class="text-center mt-3">
+                <a asp-action="Editar" asp-route-id="@Model.Id_Cargo" class="btn btn-warning">Editar</a>
+                <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>

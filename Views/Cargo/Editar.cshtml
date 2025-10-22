@@ -1,0 +1,24 @@
+@model SafeLink_TCC.Models.CargoMODEL
+
+@{
+    ViewData["Title"] = "Editar Cargo";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Editar Cargo</h2>
+
+    <form asp-action="Editar" method="post" class="w-50 mx-auto border p-4 rounded shadow-sm">
+        <input type="hidden" asp-for="Id_Cargo" />
+
+        <div class="mb-3">
+            <label asp-for="nome_cargo" class="form-label">Nome do Cargo</label>
+            <input asp-for="nome_cargo" class="form-control" />
+            <span asp-validation-for="nome_cargo" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>

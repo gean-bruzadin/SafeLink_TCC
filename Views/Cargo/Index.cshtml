@@ -1,0 +1,38 @@
+@model IEnumerable<SafeLink_TCC.Models.CargoMODEL>
+
+@{
+    ViewData["Title"] = "Lista de Cargos";
+    Layout = null;
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Lista de Cargos</h2>
+
+    <div class="text-end mb-3">
+        <a asp-action="Criar" class="btn btn-success">+ Novo Cargo</a>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nome do Cargo</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id_Cargo</td>
+                <td>@item.nome_cargo</td>
+                <td class="text-center">
+                    <a asp-action="Detalhes" asp-route-id="@item.Id_Cargo" class="btn btn-info btn-sm">Detalhes</a>
+                    <a asp-action="Editar" asp-route-id="@item.Id_Cargo" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Deletar" asp-route-id="@item.Id_Cargo" class="btn btn-danger btn-sm">Excluir</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
